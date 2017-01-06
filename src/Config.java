@@ -11,6 +11,12 @@ public class Config {
     static final String FILES = "files";
     static final String FILES_EXTRA = "files_extra";
     static final String JS_STATS = "js_stats";
+    static final String STATS = "stats";
     static final String GENERIC_STATS = "generic_stats";
     static final String TOKENIZED_FILES = "tokenized_files";
+    static final String SOURCERER_CLONE_PAIRS = "sourcerer";
+    static final String CLONE_PAIRS = "clones";
+    static final String CLONE_GROUPS = "groups";
+    static final String FILES_ID_HASH_CREATED_AT = "files_id_hash_createdAt";
+    static final String FILES_NM = "files_nm";
 }

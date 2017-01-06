@@ -12,6 +12,8 @@ public class SccPreprocessor {
         TokenizedFilesSorter.help();
         MergeSort.help();
         Stats.help();
+        Verifier.help();
+        Grouping.help();
     }
 
     public static void main(String [] args) {
@@ -20,7 +22,11 @@ public class SccPreprocessor {
         //args = new String[] {"sort", "test"};
         //args = new String[] { "mergesort", "/data/blocks1.file", "/data/blocks2.file", "/data/blocks.file" };
         //args = new String[] { "join", "/data/js_github_cleaned", "/data/top1k", "/data/with_top1k"};
-        args = new String[] { "stats", "/data/with_top1k" };
+        //args = new String[] { "stats", "/data/with_top1k" };
+        //args = new String[] { "verify", "/data/js_github" };
+        //args = new String[] { "verify", "/data/tx2/output", "_0" };
+        //args = new String[] { "group", "/data/js_github_npm" };
+        args = new String[] { "nm", "/data/js_github" };
         try {
             Long start = System.currentTimeMillis();
             if (args.length < 1)
@@ -37,6 +43,12 @@ public class SccPreprocessor {
                 DatasetJoin.join(args);
             else if (args[0] == "stats")
                 Stats.print(args);
+            else if (args[0] == "verify")
+                Verifier.verify(args);
+            else if (args[0] == "group")
+                Grouping.group(args);
+            else if (args[0] == "nm")
+                NodeModules.calculate(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);
             Long end = System.currentTimeMillis();
