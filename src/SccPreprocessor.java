@@ -27,7 +27,7 @@ public class SccPreprocessor {
         //args = new String[] { "verify", "/data/tx2/output", "_0" };
         //args = new String[] { "group", "/data/js_github_npm" };
         //args = new String[] { "nm", "/data/js_github" };
-        args = new String[] { "h2i", "/data/ecoop17/datasets/js_github" }
+        args = new String[] { "h2i", "/data/ecoop17/datasets/js_github" };
         try {
             Long start = System.currentTimeMillis();
             if (args.length < 1)
@@ -50,7 +50,7 @@ public class SccPreprocessor {
                 Grouping.group(args);
             else if (args[0] == "nm")
                 NodeModules.calculate(args);
-            else if (args[0] == "h2i"
+            else if (args[0] == "h2i")
                 HashesToInts.convert(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);
