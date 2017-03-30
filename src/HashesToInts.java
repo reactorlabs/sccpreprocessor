@@ -9,7 +9,7 @@ public class HashesToInts {
     public static void help() {
         System.out.println("h2i FOLDER");
         System.out.println("    Converts hashes in files and stats tokenizer outputs to integers");
-        System.out.println("    FOLDER - folder where to look for the CSV files");
+        System.out.println("    FOLDER - folder where to look for the txt files");
         System.out.println("");
     }
 
@@ -49,7 +49,7 @@ public class HashesToInts {
     }
 
     private void convertFiles() {
-        String filename = folder_ + "/" + Config.FILES + ".csv";
+        String filename = folder_ + "/" + Config.FILES + ".txt";
         System.out.println("Rewriting file hashes...");
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename + ".h2i"), "utf-8"))) {
             int total = CSVReader.file(filename, (ArrayList<String> row) -> {
@@ -64,7 +64,7 @@ public class HashesToInts {
         }
     }
     private void convertStats() {
-        String filename = folder_ + "/" + Config.STATS + ".csv";
+        String filename = folder_ + "/" + Config.STATS + ".txt";
         System.out.println("Rewriting stats (file and token hashes)...");
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename + ".h2i"), "utf-8"))) {
             int total = CSVReader.file(filename, (ArrayList<String> row) -> {
