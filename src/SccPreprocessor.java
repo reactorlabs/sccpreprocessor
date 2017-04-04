@@ -29,7 +29,7 @@ public class SccPreprocessor {
 
 
         // these have been cleaned
-        args = new String[] { "nm", "/data/ecoop17/dataset/js" };
+        args = new String[] { "nm", "/data/ecoop17/dataset/js/" };
         //args = new String[] { "h2i", "/data/ecoop17/datasets/js/" };
         try {
             Long start = System.currentTimeMillis();
