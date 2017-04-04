@@ -19,4 +19,7 @@ public class Config {
     static final String CLONE_GROUPS = "groups";
     static final String FILES_ID_HASH_CREATED_AT = "files_id_hash_createdAt";
     static final String FILES_NM = "files_nm";
+    static final String CLONE_FINDER = "clone_finder";
+    static final String PROJECT_CLONES = "project_clones";
+    static final String PROJECTS_NPM = "projects_npm";
 }
