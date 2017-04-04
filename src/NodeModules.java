@@ -19,7 +19,6 @@ public class NodeModules {
             throw new RuntimeException("Invalid number of arguments");
         String folder = args[1];
         NodeModules nm = new NodeModules(folder);
-        //g.createSourcererCloneGroups();
         nm.calculateNmIndex();
     }
 
@@ -27,12 +26,8 @@ public class NodeModules {
         folder_ = folder;
     }
 
-
-
-
-
     private void calculateNmIndex() {
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.FILES_NM + ".csv"), "utf-8"))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.FILES_NM + ".txt"), "utf-8"))) {
             maxDepth_ = 0;
             numNM_ = 0;
             String filename = folder_ + "/" + Config.FILES + ".csv";

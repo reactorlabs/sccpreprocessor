@@ -26,8 +26,11 @@ public class SccPreprocessor {
         //args = new String[] { "verify", "/data/js_github" };
         //args = new String[] { "verify", "/data/tx2/output", "_0" };
         //args = new String[] { "group", "/data/js_github_npm" };
-        //args = new String[] { "nm", "/data/js_github" };
-        args = new String[] { "h2i", "/data/ecoop17/datasets/js/" };
+
+
+        // these have been cleaned
+        args = new String[] { "nm", "/data/ecoop17/dataset/js" };
+        //args = new String[] { "h2i", "/data/ecoop17/datasets/js/" };
         try {
             Long start = System.currentTimeMillis();
             if (args.length < 1)
