@@ -30,7 +30,7 @@ public class NodeModules {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.FILES_NM + ".txt"), "utf-8"))) {
             maxDepth_ = 0;
             numNM_ = 0;
-            String filename = folder_ + "/" + Config.FILES + ".csv";
+            String filename = folder_ + "/" + Config.FILES + ".txt";
             int total = CSVReader.file(filename, (ArrayList<String> row) -> {
                 int id = Integer.valueOf(row.get(0));
                 String url = row.get(2);
