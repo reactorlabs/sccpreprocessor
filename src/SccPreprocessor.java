@@ -32,7 +32,9 @@ public class SccPreprocessor {
         //args = new String[] { "nm", "/data/ecoop17/datasets/js" };
         //args = new String[] { "nm", "/home/peta/delete" };
         //args = new String[] { "h2i", "/data/ecoop17/datasets/js/" };
-        args= new String[] { "commits", "/data/ecoop17/datasets/js", "/data/ghtorrent/mysql-2016-11-01/project_commits.csv" };
+        //args= new String[] { "commits", "/data/ecoop17/datasets/js", "/data/ghtorrent/mysql-2016-11-01/project_commits.csv" };
+
+        args = new String[] { "originals", "/data/ecoop17/datasets/jsHalf" };
 
         try {
             Long start = System.currentTimeMillis();
@@ -60,6 +62,8 @@ public class SccPreprocessor {
                 HashesToInts.convert(args);
             else if (args[0] == "commits")
                 Commits.calculate(args);
+            else if (args[0] == "originals")
+                ProjectOriginals.analyze(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);
             Long end = System.currentTimeMillis();

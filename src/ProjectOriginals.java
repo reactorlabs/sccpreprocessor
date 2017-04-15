@@ -7,6 +7,31 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 public class ProjectOriginals {
+    public static void help() {
+        System.out.println("originals FOLDER");
+        System.out.println("    Does project originals calculation.");
+        System.out.println("    FOLDER - folder where to look for the CSV files");
+        System.out.println("");
+    }
+
+
+    public static void analyze(String [] args) {
+        if (args.length < 2)
+            throw new RuntimeException("Invalid number of arguments");
+        String folder = args[1];
+        ProjectOriginals po = new ProjectOriginals(folder);
+        po.loadProjects();
+        po.analyzeProjectClones(0);
+
+
+
+
+    }
+
+    private ProjectOriginals(String folder) {
+        folder_ = folder;
+    }
+
 
     /* For each project, the following is remembered:
      */
@@ -28,7 +53,8 @@ public class ProjectOriginals {
 
 
 
-
+    int errors = 0;
+    int lastId = 0;
 
     /* Loads all projects.
      */
@@ -37,11 +63,16 @@ public class ProjectOriginals {
         String filename = folder_ + "/" + Config.PROJECTS_EXTRA + ".txt";
         System.out.println("Loading projects...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
-            int id = Integer.parseInt(row.get(0));
-            int created = Integer.parseInt(row.get(1));
-            commits_.put(id, new Record(created));
+            try {
+                int id = Integer.parseInt(row.get(0));
+                int created = Integer.parseInt(row.get(1));
+                commits_.put(id, new Record(created));
+            } catch (Exception e) {
+                errors += 1;
+            }
         });
         System.out.println("    total projects:          " + total);
+        System.out.println("    errors:                  " + errors);
     }
 
     /* When we have the projects, analyze the project clone records to find the originals.
@@ -53,10 +84,8 @@ public class ProjectOriginals {
             int cloneId = Integer.parseInt(row.get(0));
             int hostId = Integer.parseInt(row.get(4));
             double similarity = Double.parseDouble(row.get(7));
-
         });
-
-
+        System.out.println("    total records:           " + total);
     }
 
 

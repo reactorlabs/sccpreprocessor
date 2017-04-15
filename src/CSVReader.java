@@ -42,7 +42,9 @@ public class CSVReader {
             int i = 0;
             while (true) {
                 String col = new String();
-                if (line.charAt(i) == QUOTE) {
+                if (i >= line.length()) {
+
+                } else if (line.charAt(i) == QUOTE) {
                     ++i;
                     while (line.charAt(i) != QUOTE) {
                         if (line.charAt(i) == ESCAPE) {
