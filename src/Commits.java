@@ -60,12 +60,12 @@ public class Commits {
     }
 
     void saveData() {
-        System.out.println("Saving commit counts...")
+        System.out.println("Saving commit counts...");
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.PROJECTS + "_commits.csv"), "utf-8"))) {
             for (int k : commits_.keySet()) {
-                writer.write(k);
+                writer.write(String.valueOf(k));
                 writer.write(",");
-                writer.write(commits_.get(k));
+                writer.write(String.valueOf(commits_.get(k)));
                 writer.write("\n");
             }
             System.out.println("    written:   " + commits_.size());
