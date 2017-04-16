@@ -60,21 +60,45 @@ public class ProjectOriginals {
     /* Loads all projects.
      */
     private void loadProjects() {
+        CSVReader.SEPARATOR = '\t';
         projects_ = new HashMap<>();
-        String filename = folder_ + "/projects_heat.csv";
-        System.out.println("Loading projects...");
+        projectsTemp_ = new HashMap<>();
+        String filename = folder_ + "/stars.txt";
+        System.out.println("Loading stars...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
             int id = Integer.parseInt(row.get(0));
             int stars = Integer.parseInt(row.get(1));
-            if (stars == -1)
-                return;
-            int commits = Integer.parseInt(row.get(2));
-            if (commits == -1)
-                return;
-            projects_.put(id, new Record(stars, commits));
+            projectsTemp_.put(id, new Record(stars, 0));
+        });
+        System.out.println("    total projects:          " + total);
+        System.out.println("    loaded projects:         " + projectsTemp_.size());
+        // now load commits
+        filename = folder_ + "/commits.txt";
+        System.out.println("Loading commits...");
+        total = CSVReader.file(filename, (ArrayList<String> row) -> {
+            int id = Integer.parseInt(row.get(0));
+            int commits = Integer.parseInt(row.get(1));
+            if (projectsTemp_.containsKey(id))
+                projectsTemp_.get(id).commits = commits;
+            else
+                projectsTemp_.put(id, new Record(0, commits));
+        });
+        System.out.println("    total projects:          " + total);
+        System.out.println("    loaded projects:         " + projectsTemp_.size());
+        // and finally, translate project ids to db ids so that we can work with files
+        filename = folder_ + "/m.csv";
+        CSVReader.SEPARATOR = ',';
+        System.out.println("Converting ids...");
+        total = CSVReader.file(filename, (ArrayList<String> row) -> {
+            // path,db_id,gh_id,url
+            int db_id = Integer.parseInt(row.get(1));
+            int gh_id = Integer.parseInt(row.get(2));
+            if (projectsTemp_.containsKey(gh_id))
+                projects_.put(db_id, projectsTemp_.get(gh_id));
         });
         System.out.println("    total projects:          " + total);
         System.out.println("    loaded projects:         " + projects_.size());
+        projectsTemp_ = null;
     }
 
     private void loadStatsCount() {
@@ -83,7 +107,7 @@ public class ProjectOriginals {
         System.out.println("Loading file stats counts...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
             int pid = Integer.parseInt(row.get(1));
-            int fileHash = Integer.parseInt(row.get(3));
+            int fileHash = Integer.parseInt(row.get(2));
             // increase total number of files for the project
             if (projects_.containsKey(pid))
                 projects_.get(pid).files += 1;
@@ -96,7 +120,7 @@ public class ProjectOriginals {
         System.out.println("    unique files:            " + statsCounts_.size());
         // run through files again, this time counting original files
         CSVReader.file(filename, (ArrayList<String> row) -> {
-            int fileHash = Integer.parseInt(row.get(3));
+            int fileHash = Integer.parseInt(row.get(2));
             if (statsCounts_.get(fileHash) == 1) {
                 int pid = Integer.parseInt(row.get(1));
                 if (projects_.containsKey(pid))
@@ -181,6 +205,7 @@ public class ProjectOriginals {
     private String folder_;
     private double cloneThreshold = 0.8;
     private HashMap<Integer, Record> projects_;
+    private HashMap<Integer, Record> projectsTemp_;
     private HashMap<Integer, Integer> statsCounts_;
 
 }

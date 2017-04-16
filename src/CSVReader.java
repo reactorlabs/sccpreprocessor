@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 public class CSVReader {
 
-    public static final char SEPARATOR = ',';
+    public static char SEPARATOR = ',';
 
     public static final char QUOTE = '\"';
 
