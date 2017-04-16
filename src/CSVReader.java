@@ -117,6 +117,8 @@ public class CSVReader {
                 handler_.process(row);
                 // and increase rows
                 ++rows_;
+                if (rows_ % 10000000 == 0)
+                    System.out.println(rows_);
             }
         } catch (IOException e) {
             e.printStackTrace();
