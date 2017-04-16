@@ -91,6 +91,8 @@ public class ProjectOriginals {
         System.out.println("Converting ids...");
         total = CSVReader.file(filename, (ArrayList<String> row) -> {
             // path,db_id,gh_id,url
+            if (row.get(1).equals("db_id"))
+                return;
             int db_id = Integer.parseInt(row.get(1));
             int gh_id = Integer.parseInt(row.get(2));
             if (projectsTemp_.containsKey(gh_id))
@@ -103,7 +105,7 @@ public class ProjectOriginals {
 
     private void loadStatsCount() {
         statsCounts_ = new HashMap<>();
-        String filename = folder_ + "/files.txt.h2i";
+        String filename = folder_ + "/files.csv.h2i";
         System.out.println("Loading file stats counts...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
             int pid = Integer.parseInt(row.get(1));
@@ -135,9 +137,9 @@ public class ProjectOriginals {
         String filename = folder_ + "/project_clones.csv";
         System.out.println("Analyzing project clones...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
-            int cloneId = Integer.parseInt(row.get(0));
-            int hostId = Integer.parseInt(row.get(4));
-            double similarity = Double.parseDouble(row.get(7));
+            int cloneId = Integer.parseInt(row.get(1));
+            int hostId = Integer.parseInt(row.get(5));
+            double similarity = Double.parseDouble(row.get(8));
             if (similarity >= cloneThreshold) {
                 if (projects_.containsKey(hostId))
                     projects_.get(hostId).clonesContained += 1;
