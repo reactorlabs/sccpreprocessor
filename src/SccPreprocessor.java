@@ -40,29 +40,29 @@ public class SccPreprocessor {
             Long start = System.currentTimeMillis();
             if (args.length < 2)
                 throw new RuntimeException("Invalid number of arguments");
-            if (args[1] == "clean")
+            if (args[0].equals("clean"))
                 ChunkCleaner.clean(args);
-            else if (args[1] == "rewrite")
+            else if (args[0].equals("rewrite"))
                 ChunkRewriter.rewrite(args);
-            else if (args[1] == "sort")
+            else if (args[0].equals("sort"))
                 TokenizedFilesSorter.sort(args);
-            else if (args[1] == "mergesort")
+            else if (args[0].equals("mergesort"))
                 MergeSort.merge(args);
-            else if (args[1] == "join")
+            else if (args[0].equals("join"))
                 DatasetJoin.join(args);
-            else if (args[1] == "stats")
+            else if (args[0].equals("stats"))
                 Stats.print(args);
-            else if (args[1] == "verify")
+            else if (args[0].equals("verify"))
                 Verifier.verify(args);
-            else if (args[1] == "group")
+            else if (args[0].equals("group"))
                 Grouping.group(args);
-            else if (args[1] == "nm")
+            else if (args[0].equals("nm"))
                 NodeModules.calculate(args);
-            else if (args[1] == "h2i")
+            else if (args[0].equals("h2i"))
                 HashesToInts.convert(args);
-            else if (args[1] == "commits")
+            else if (args[0].equals("commits"))
                 Commits.calculate(args);
-            else if (args[1] == "originals")
+            else if (args[0].equals("originals"))
                 ProjectOriginals.analyze(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);

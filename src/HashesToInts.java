@@ -14,9 +14,9 @@ public class HashesToInts {
     }
 
     public static void convert(String[] args) {
-        if (args.length < 3)
+        if (args.length < 2)
             throw new RuntimeException("Invalid number of arguments");
-        String folder = args[2];
+        String folder = args[1];
         HashesToInts h = new HashesToInts(folder);
         h.convertFiles();
         //h.convertStats();
