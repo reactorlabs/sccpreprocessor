@@ -34,7 +34,7 @@ public class SccPreprocessor {
         //args = new String[] { "h2i", "/data/ecoop17/datasets/js/" };
         //args= new String[] { "commits", "/data/ecoop17/datasets/js", "/data/ghtorrent/mysql-2016-11-01/project_commits.csv" };
 
-        args = new String[] { "originals", "/data/ecoop17/datasets/jsHalf" };
+        //args = new String[] { "originals", "/data/ecoop17/datasets/jsHalf" };
 
         try {
             Long start = System.currentTimeMillis();

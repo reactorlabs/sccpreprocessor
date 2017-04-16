@@ -19,7 +19,7 @@ public class HashesToInts {
         String folder = args[1];
         HashesToInts h = new HashesToInts(folder);
         h.convertFiles();
-        h.convertStats();
+        //h.convertStats();
     }
 
     private HashesToInts(String folder) {
@@ -49,13 +49,14 @@ public class HashesToInts {
     }
 
     private void convertFiles() {
-        String filename = folder_ + "/" + Config.FILES + ".txt";
+        String filename = folder_ + "/" + Config.FILES + ".csv";
         System.out.println("Rewriting file hashes...");
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filename + ".h2i"), "utf-8"))) {
             int total = CSVReader.file(filename, (ArrayList<String> row) -> {
-                row.set(3, String.valueOf(convertFileHash(row.get(3))));
+                row.set(2, String.valueOf(convertFileHash(row.get(2))));
                 // now output the file
-                Helpers.writeFilesRow(row, writer);
+                Helpers.writeRow(row, writer);
+                //Helpers.writeFilesRow(row, writer);
             });
             System.out.println("    total rows:          " + total);
             System.out.println("    unique file hashes:  " + fileHashes_.size());
