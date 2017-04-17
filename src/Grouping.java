@@ -27,11 +27,11 @@ public class Grouping {
         String folder = args[1];
         Grouping g = new Grouping(folder);
         g.createSourcererCloneGroups();
-        g.tokenHashGroups_ = null;
+        /*g.tokenHashGroups_ = null;
         g.groupMembers_ = null;
         g.groups_ = null;
         g.hashGroups_ = null;
-        g.createHashCloneGroups();
+        g.createHashCloneGroups(); */
     }
 
     private Grouping(String folder) {
@@ -165,7 +165,7 @@ public class Grouping {
         }
         System.out.println("    group membership:    " + groupMembers_.size());
         // now for each group, get the oldest file id
-        filename = folder_ + "/" + Config.FILES_EXTRA + ".csv";
+/*        filename = folder_ + "/" + Config.FILES_EXTRA + ".csv";
         total = CSVReader.file(filename, (ArrayList<String> row) -> {
             int id = Integer.parseInt(row.get(0));
             Set<CloneGroup> g = groupMembers_.get(id);
@@ -175,19 +175,19 @@ public class Grouping {
                     cg.updateOldestId(id, createdAt);
             }
         });
-        System.out.println("    files checked:       " + total);
+        System.out.println("    files checked:       " + total); */
         // remove groups with no oldest files
-        iter = groups_.entrySet().iterator();
+/*        iter = groups_.entrySet().iterator();
         while (iter.hasNext()) {
             Map.Entry<Integer, CloneGroup> entry = iter.next();
             if (entry.getValue().oldestId_ == -1) {
                 iter.remove();
                 --numGroups_;
             }
-        }
+        } */
         System.out.println("    valid clone groups:  " + numGroups_);
         // now let's print the group pairings and name the groups
-        total = 0;
+/*        total = 0;
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.CLONE_PAIRS + "_scc.csv"), "utf-8"))) {
             int gid = 0;
             for (Map.Entry<Integer, Set<CloneGroup>> e: groupMembers_.entrySet()) {
@@ -205,7 +205,7 @@ public class Grouping {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("    clone pairs:         " + total);
+        System.out.println("    clone pairs:         " + total); */
         // and now write the groups information
         numGroups_ = 0;
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.CLONE_GROUPS + "_scc.csv"), "utf-8"))) {
@@ -215,8 +215,8 @@ public class Grouping {
                     writer.write(String.valueOf(g.id_));
                     writer.write(",");
                     writer.write(String.valueOf(g.size_));
-                    writer.write(",");
-                    writer.write(String.valueOf(g.oldestId_));
+                    //writer.write(",");
+                    //writer.write(String.valueOf(g.oldestId_));
                     writer.write("\n");
                     g.id_ = -1;
                     ++numGroups_;
