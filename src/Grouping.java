@@ -187,7 +187,7 @@ public class Grouping {
         } */
         System.out.println("    valid clone groups:  " + numGroups_);
         // now let's print the group pairings and name the groups
-/*        total = 0;
+        total = 0;
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.CLONE_PAIRS + "_scc.csv"), "utf-8"))) {
             int gid = 0;
             for (Map.Entry<Integer, Set<CloneGroup>> e: groupMembers_.entrySet()) {
@@ -205,7 +205,7 @@ public class Grouping {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        System.out.println("    clone pairs:         " + total); */
+        System.out.println("    clone pairs:         " + total);
         // and now write the groups information
         numGroups_ = 0;
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.CLONE_GROUPS + "_scc.csv"), "utf-8"))) {
