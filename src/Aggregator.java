@@ -74,7 +74,7 @@ public class Aggregator {
         return (year - 1999) * 12 + month;
     }
 
-    void loadSccClones() {
+/*    void loadSccClones() {
         sccClones_ = new HashSet<>();
         String filename = folder_ + "/" + Config.SCC_DUP + ".csv";
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
@@ -82,16 +82,16 @@ public class Aggregator {
         });
         System.out.println("SCC Clones: " + total);
 
-    }
+    } */
 
-    void loadUniqueTokenHashes() {
+/*    void loadUniqueTokenHashes() {
         uniqueTokenHashes_ = new HashSet<>();
         String filename = folder_ + "/" + Config.UNIQUE_THASHES + ".csv";
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
             uniqueTokenHashes_.add(Integer.parseInt(row.get(0)));
         });
         System.out.println("Unique Token Hashes: " + total);
-    }
+    } */
 
     void aggregateProjects() {
         aggregates_ = new int[1][MONTHS];
