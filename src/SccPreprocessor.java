@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Objects;
 
 /**
  * Created by peta on 17.12.16.
@@ -34,35 +35,35 @@ public class SccPreprocessor {
         //args = new String[] { "h2i", "/data/ecoop17/datasets/js/" };
         //args= new String[] { "commits", "/data/ecoop17/datasets/js", "/data/ghtorrent/mysql-2016-11-01/project_commits.csv" };
 
-        args = new String[] { "originals", "/data/ecoop17/datasets/jsHalf" };
+        //args = new String[] { "originals", "/data/ecoop17/datasets/jsHalf" };
 
         try {
             Long start = System.currentTimeMillis();
             if (args.length < 1)
                 throw new RuntimeException("Invalid number of arguments");
-            if (args[0] == "clean")
+            if (args[0].equals("clean"))
                 ChunkCleaner.clean(args);
-            else if (args[0] == "rewrite")
+            else if (Objects.equals(args[0], "rewrite"))
                 ChunkRewriter.rewrite(args);
-            else if (args[0] == "sort")
+            else if (Objects.equals(args[0], "sort"))
                 TokenizedFilesSorter.sort(args);
-            else if (args[0] == "mergesort")
+            else if (Objects.equals(args[0], "mergesort"))
                 MergeSort.merge(args);
-            else if (args[0] == "join")
+            else if (Objects.equals(args[0], "join"))
                 DatasetJoin.join(args);
-            else if (args[0] == "stats")
+            else if (Objects.equals(args[0], "stats"))
                 Stats.print(args);
-            else if (args[0] == "verify")
+            else if (Objects.equals(args[0], "verify"))
                 Verifier.verify(args);
-            else if (args[0] == "group")
+            else if (Objects.equals(args[0], "group"))
                 Grouping.group(args);
-            else if (args[0] == "nm")
+            else if (Objects.equals(args[0], "nm"))
                 NodeModules.calculate(args);
-            else if (args[0] == "h2i")
+            else if (args[0].equals("h2i"))
                 HashesToInts.convert(args);
-            else if (args[0] == "commits")
+            else if (Objects.equals(args[0], "commits"))
                 Commits.calculate(args);
-            else if (args[0] == "originals")
+            else if (Objects.equals(args[0], "originals"))
                 ProjectOriginals.analyze(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);
