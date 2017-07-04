@@ -37,7 +37,7 @@ public class NodeModules {
             maxDepth_ = 0;
             numNM_ = 0;
             errors_ = 0;
-            String filename = folder_ + "/" + Config.FILES + ".txt";
+            String filename = folder_ + "/" + Config.FILES + ".csv";
             int total = CSVReader.file(filename, (ArrayList<String> row) -> {
                 int id = Integer.valueOf(row.get(0));
                 String url = row.get(2);
