@@ -63,6 +63,8 @@ public class SccPreprocessor {
                 HashesToInts.convert(args);
             else if (Objects.equals(args[0], "commits"))
                 Commits.calculate(args);
+            else if (Objects.equals(args[0], "aggregate"))
+                Aggregator.find(args);
             else if (Objects.equals(args[0], "originals"))
                 ProjectOriginals.analyze(args);
             else

@@ -18,18 +18,20 @@ public class ProjectOriginals {
 
 
     public static void analyze(String [] args) {
-        if (args.length < 2)
+        if (args.length < 3)
             throw new RuntimeException("Invalid number of arguments");
         String folder = args[1];
-        ProjectOriginals po = new ProjectOriginals(folder);
+        int chunks = Integer.parseInt(args[2]);
+        ProjectOriginals po = new ProjectOriginals(folder, chunks);
         po.loadProjects();
         po.loadStatsCount();
         po.loadProjectClones();
         po.saveData();
     }
 
-    private ProjectOriginals(String folder) {
+    private ProjectOriginals(String folder, int chunks) {
         folder_ = folder;
+        chunks_ = chunks;
     }
 
 
@@ -79,7 +81,7 @@ public class ProjectOriginals {
 
     private void loadStatsCount() {
         statsCounts_ = new HashMap<>();
-        String filename = folder_ + "/files.txt.h2i";
+        String filename = folder_ + "/files.csv.h2i";
         System.out.println("Loading file stats counts...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
             int pid = Integer.parseInt(row.get(1));
@@ -108,18 +110,20 @@ public class ProjectOriginals {
     }
 
     private void loadProjectClones() {
-        String filename = folder_ + "/project_clones.csv";
-        System.out.println("Analyzing project clones...");
-        int total = CSVReader.file(filename, (ArrayList<String> row) -> {
-            int cloneId = Integer.parseInt(row.get(0));
-            int hostId = Integer.parseInt(row.get(4));
-            double similarity = Double.parseDouble(row.get(7));
-            if (similarity >= cloneThreshold) {
-                if (projects_.containsKey(hostId))
-                    projects_.get(hostId).clonesContained += 1;
-            }
-        });
-        System.out.println("    total records:           " + total);
+        for (int i = 0; i < chunks_; ++i) {
+            String filename = folder_ + "/project_clones." + String.valueOf(i) + ".csv";
+            System.out.println("Analyzing project clones " + filename + "...");
+            int total = CSVReader.file(filename, (ArrayList<String> row) -> {
+                int cloneId = Integer.parseInt(row.get(0));
+                int hostId = Integer.parseInt(row.get(4));
+                double similarity = Double.parseDouble(row.get(7));
+                if (similarity >= cloneThreshold) {
+                    if (projects_.containsKey(hostId))
+                        projects_.get(hostId).clonesContained += 1;
+                }
+            });
+            System.out.println("    total records:           " + total);
+        }
     }
 
     void saveData() {
@@ -179,6 +183,7 @@ public class ProjectOriginals {
 
     int originalFiles_ = 0;
     private String folder_;
+    private int chunks_;
     private double cloneThreshold = 0.8;
     private HashMap<Integer, Record> projects_;
     private HashMap<Integer, Integer> statsCounts_;

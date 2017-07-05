@@ -22,4 +22,5 @@ public class Config {
     static final String CLONE_FINDER = "clone_finder";
     static final String PROJECT_CLONES = "project_clones";
     static final String PROJECTS_NPM = "projects_npm";
+    static final String AGGREGATION = "aggregation";
 }

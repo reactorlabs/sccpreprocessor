@@ -38,7 +38,7 @@ public class Commits {
 
     private void loadProjects() {
         commits_ = new HashMap<>();
-        String filename = folder_ + "/" + Config.PROJECTS + ".txt";
+        String filename = folder_ + "/" + Config.PROJECTS + ".csv";
         System.out.println("Loading projects...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
             commits_.put(Integer.parseInt(row.get(0)), 0);
@@ -61,7 +61,7 @@ public class Commits {
 
     void saveData() {
         System.out.println("Saving commit counts...");
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/" + Config.PROJECTS + "_commits.csv"), "utf-8"))) {
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/project_commits.csv"), "utf-8"))) {
             for (int k : commits_.keySet()) {
                 writer.write(String.valueOf(k));
                 writer.write(",");
