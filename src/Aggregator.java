@@ -274,8 +274,6 @@ fileId, createdAt, npm, test, fileExt, tokenHash
                 int sccUnique = sccClones_.contains(fileId) ? 0 : 16;
                 int month = monthIndex(cdate * 1000);
                 int counterIdx = npm + test + minjs + sccUnique + thUnique;
-                if (month > MONTHS)
-                    System.out.println(month);
                 while (month < MONTHS)
                     aggregates_[counterIdx][month++] += 1;
             }
