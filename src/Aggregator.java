@@ -86,7 +86,7 @@ public class Aggregator {
 
     }
 
-    void loadUniqueTokenHashes() {
+    void loadUniqueTokenHashes2() {
         HashSet<Integer> tokenHashes = new HashSet<>();
         uniqueTokenHashes_ = new HashSet<>();
         String filename = folder_ + "/" + Config.STATS + ".csv.h2i";
@@ -101,6 +101,79 @@ public class Aggregator {
         });
         System.out.println("Unique Token Hashes: " + uniqueTokenHashes_.size());
     }
+
+    void loadUniqueTokenHashes() {
+        HashSet<Integer> tokenHashes = new HashSet<>();
+        uniqueTokenHashes_ = new HashSet<>();
+        String filename = folder_ + "/files_statistics.csv";
+        int total = CSVReader.file(filename, (ArrayList<String> row) -> {
+            int hash = Integer.parseInt(row.get(5));
+            if (tokenHashes.contains(hash)) {
+                uniqueTokenHashes_.remove(hash);
+            } else {
+                uniqueTokenHashes_.add(hash);
+            }
+            tokenHashes.add(hash);
+        });
+        System.out.println("Unique Token Hashes: " + uniqueTokenHashes_.size());
+    }
+
+
+
+    /* Aggregates file counts for months based on their creation date and whether they are:
+           - min.js
+           - NPM
+           - Bower
+           - test
+0       1          2    3     4        5
+fileId, createdAt, npm, test, fileExt, tokenHash
+     */
+    void aggregateAll() {
+        aggregates_ = new int[32][MONTHS];
+        String filename = folder_ + "/files_statistics.csv";
+        int total = CSVReader.file(filename, (ArrayList<String> row) -> {
+            // don't cre about file id
+            long cdate = Long.parseLong(row.get(1));
+            if (cdate >= MIN_DATE) {
+                int fileId = Integer.parseInt(row.get(0));
+                int npm = Integer.parseInt(row.get(2));
+                int test = Integer.parseInt(row.get(3)) * 2;
+                int minjs= row.get(4).equals("min.js") ? 4 : 0;
+                int thUnique =uniqueTokenHashes_.contains(Integer.parseInt(row.get(5))) ? 8 : 0;
+                int sccUnique = sccClones_.contains(fileId) ? 0 : 16;
+                int month = monthIndex(cdate * 1000);
+                int counterIdx = npm + test + minjs + sccUnique + thUnique;
+                while (month < MONTHS)
+                    aggregates_[counterIdx][month++] += 1;
+            }
+        });
+        System.out.println("    files:         " + total);
+        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/aggregated_files.csv"), "utf-8"))) {
+            for (int month = 0; month < MONTHS; ++month) {
+                writer.write(String.valueOf(month));
+                writer.write(" ");
+                for (int counter = 0; counter < 32; ++counter) {
+                    writer.write(String.valueOf(aggregates_[counter][month]));
+                    writer.write(" ");
+                }
+                writer.write("\n");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    String folder_;
+    int language_;
+    int deleted_;
+    int forked_;
+
+    int[][] aggregates_;
+
+    Set<Integer> sccClones_;
+    Set<Integer> uniqueTokenHashes_;
+}
 
     void aggregateProjects() {
         aggregates_ = new int[1][MONTHS];
@@ -251,66 +324,3 @@ public class Aggregator {
     }
 
 
-    /* Aggregates file counts for months based on their creation date and whether they are:
-           - min.js
-           - NPM
-           - Bower
-           - test
-0       1          2    3     4        5
-fileId, createdAt, npm, test, fileExt, tokenHash
-     */
-    void aggregateAll() {
-        aggregates_ = new int[32][MONTHS];
-        String filename = folder_ + "/files_statistics.csv";
-        int total = CSVReader.file(filename, (ArrayList<String> row) -> {
-            // don't cre about file id
-            long cdate = Long.parseLong(row.get(1));
-            if (cdate >= MIN_DATE) {
-                int fileId = Integer.parseInt(row.get(0));
-                int npm = Integer.parseInt(row.get(2));
-                int test = Integer.parseInt(row.get(3)) * 2;
-                int minjs= row.get(4).equals("min.js") ? 4 : 0;
-                int thUnique =uniqueTokenHashes_.contains(Integer.parseInt(row.get(5))) ? 8 : 0;
-                int sccUnique = sccClones_.contains(fileId) ? 0 : 16;
-                int month = monthIndex(cdate * 1000);
-                int counterIdx = npm + test + minjs + sccUnique + thUnique;
-                while (month < MONTHS)
-                    aggregates_[counterIdx][month++] += 1;
-            }
-        });
-        System.out.println("    files:         " + total);
-        try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/aggregated_files.csv"), "utf-8"))) {
-            for (int month = 0; month < MONTHS; ++month) {
-                writer.write(String.valueOf(month));
-                writer.write(" ");
-                for (int counter = 0; counter < 32; ++counter) {
-                    writer.write(String.valueOf(aggregates_[counter][month]));
-                    writer.write(" ");
-                }
-                writer.write("\n");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-    String folder_;
-    int language_;
-    int deleted_;
-    int forked_;
-
-    int[][] aggregates_;
-
-    Set<Integer> sccClones_;
-    Set<Integer> uniqueTokenHashes_;
-
-
-
-
-
-
-
-
-
-}
