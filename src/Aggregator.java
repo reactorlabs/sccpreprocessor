@@ -174,7 +174,7 @@ fileId, createdAt, npm, test, fileExt, tokenHash
     Set<Integer> sccClones_;
     Set<Integer> uniqueTokenHashes_;
 }
-
+/*
     void aggregateProjects() {
         aggregates_ = new int[1][MONTHS];
         String filename = folder_ + "/" + Config.PROJECTS + ".csv";
@@ -322,5 +322,5 @@ fileId, createdAt, npm, test, fileExt, tokenHash
             e.printStackTrace();
         }
     }
-
+*/
 
