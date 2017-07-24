@@ -69,6 +69,8 @@ public class SccPreprocessor {
                 Aggregator.find(args);
             else if (Objects.equals(args[0], "originals"))
                 ProjectOriginals.analyze(args);
+            else if (Objects.equals(args[0], "cstats"))
+                CloneStats.analyze(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);
             Long end = System.currentTimeMillis();

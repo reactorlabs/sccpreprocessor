@@ -266,14 +266,14 @@ public class CloneFinder {
 
                     // now output to the database
                     // id
-                    // cloneId
-                    // cloneClonedFiles
-                    // cloneTotalFiles
-                    // cloneCloningPercent
-                    // hostId
-                    // hostAffectedFiles
-                    // hostTotalFiles
-                    // hostAffectedPercent
+                    // cloneId 0
+                    // cloneClonedFiles 1
+                    // cloneTotalFiles 2
+                    // cloneCloningPercent 3
+                    // hostId 4
+                    // hostAffectedFiles 5
+                    // hostTotalFiles 6
+                    // hostAffectedPercent 7
                     w_.write(String.valueOf(p.id_));
                     w_.write(",");
                     w_.write(String.valueOf(percentage_clone_projects_counter.get(k)));
