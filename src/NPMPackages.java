@@ -25,6 +25,8 @@ public class NPMPackages {
         folder_ = folder;
         outputFolder_ = outputFolder;
         numThreads_ = numThreads;
+        done_ = new AtomicInteger(0);
+        npms_ = new AtomicInteger(0);
     }
 
     class Project {
@@ -40,13 +42,6 @@ public class NPMPackages {
         String getPackageJSONUrl() {
             return "https://raw.githubusercontent.com/" + url + "/master/package.json";
         }
-    }
-
-    NPMPackages(String folder, String outputFolder) {
-        folder_ = folder;
-        outputFolder_ = outputFolder_;
-        done_ = new AtomicInteger(0);
-        npms_ = new AtomicInteger(0);
     }
 
     void loadData() {

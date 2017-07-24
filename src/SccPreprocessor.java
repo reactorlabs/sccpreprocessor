@@ -59,6 +59,8 @@ public class SccPreprocessor {
                 Grouping.group(args);
             else if (Objects.equals(args[0], "nm"))
                 NodeModules.calculate(args);
+            else if (Objects.equals(args[0], "npm"))
+                NPMPackages.find(args);
             else if (args[0].equals("h2i"))
                 HashesToInts.convert(args);
             else if (Objects.equals(args[0], "commits"))
