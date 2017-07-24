@@ -65,7 +65,7 @@ public class NPMPackages {
                 }
                 System.out.println(((System.currentTimeMillis() - start) / 1000) + "[s]");
                 System.out.println("    projects done: " + done_.get() + " (" + String.format(" %.2f", done_.get() * 100.0 / projects_.size()) + " %)");
-                System.out.println("    npms:          " + npms_.get() + " (" + String.format(" %.2f", npms_.get() * 100.0 / projects_.size()) + " %)");
+                System.out.println("    npms:          " + npms_.get() + " (" + String.format(" %.2f", npms_.get() * 100.0 / done_.get()) + " %)");
             }
         }
     }
@@ -121,7 +121,7 @@ public class NPMPackages {
             proc.waitFor();
             // to be double sure, only say it worked if the file actually has been downloaded
             File f = new File(output);
-            if(f.exists() && !f.isDirectory()) {
+            if(f.exists() && !f.isDirectory() && f.length() > 0) {
                 p.isNPM = true;
                 npms_.incrementAndGet();
             }
