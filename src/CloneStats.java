@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class CloneStats {
 
     public static void analyze(String[] args) {
-        if (args.length < 4)
+        if (args.length < 3)
             throw new RuntimeException("Invalid number of arguments");
         String folder = args[1];
         int chunks = Integer.valueOf(args[2]);
@@ -52,9 +52,9 @@ public class CloneStats {
     private void save() {
         try (Writer writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(folder_ + "/fully_cloned_projects.csv"), "utf-8"))) {
             for (Map.Entry<Integer, Integer> i : clones_.entrySet()) {
-                writer.write(i.getKey());
+                writer.write(String.valueOf(i.getKey()));
                 writer.write(",");
-                writer.write(i.getValue());
+                writer.write(String.valueOf(i.getValue()));
                 writer.write("\n");
             };
             System.out.println("    cloned projects:        " + clones_.size());
