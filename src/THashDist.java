@@ -32,7 +32,7 @@ public class THashDist {
 
     private void loadFhGroups() {
         fhGroups_ = new int[this.fhHint_];
-        thGroups_ = (HashSet<Integer>[]) new Object[this.thHint_];
+        thGroups_ = new Object[this.thHint_];
         String filename = folder_ + "/files.csv.h2i";
         System.out.println("Analyzing file hash groups " + filename + "...");
         int total = CSVReader.file(filename, (ArrayList<String> row) -> {
@@ -50,7 +50,7 @@ public class THashDist {
             int th = Integer.parseInt(row.get(7));
             if (thGroups_[th] == null)
                 thGroups_[th] = new HashSet<Integer>();
-            thGroups_[th].add(fh);
+            ((HashSet<Integer>) thGroups_[th]).add(fh);
         });
         System.out.println("    file hashes analyzed:           " + total);
     }
@@ -98,6 +98,6 @@ public class THashDist {
     private int fhHint_;
     private int thHint_;
     private int[] fhGroups_;
-    private HashSet<Integer>[] thGroups_;
+    private Object[] thGroups_;
 
 }
