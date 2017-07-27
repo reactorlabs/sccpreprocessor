@@ -71,6 +71,8 @@ public class SccPreprocessor {
                 ProjectOriginals.analyze(args);
             else if (Objects.equals(args[0], "cstats"))
                 CloneStats.analyze(args);
+            else if (Objects.equals(args[0], "th"))
+                THashDist.analyze(args);
             else
                 throw new RuntimeException("Invalid action " + args[0]);
             Long end = System.currentTimeMillis();

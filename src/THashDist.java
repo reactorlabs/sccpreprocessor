@@ -1,32 +1,65 @@
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
- * Created by peta on 24.7.17.
+ * Created by peta on 27.7.17.
  */
-public class CloneStats {
+public class THashDist {
 
     public static void analyze(String[] args) {
-        if (args.length < 3)
+        if (args.length != 4)
             throw new RuntimeException("Invalid number of arguments");
         String folder = args[1];
-        int chunks = Integer.valueOf(args[2]);
-        CloneStats stats = new CloneStats(folder, chunks);
-        stats.loadProjectClones();
-        stats.save();
+        int fhHint = Integer.parseInt(args[2]);
+        int thHint = Integer.parseInt(args[3]);
+        THashDist dist = new THashDist(folder, fhHint, thHint);
+        dist.loadFhGroups();
+        dist.loadThGroups();
+        dist.analyzeGroups();
     }
 
-    private CloneStats(String folder, int chunks) {
+    private THashDist(String folder, int fhHint, int thHint) {
         this.folder_ = folder;
-        this.chunks_ = chunks;
+        this.fhHint_ = fhHint;
+        this.thHint_ = thHint;
     }
 
 
 
+
+    private void loadFhGroups() {
+        fhGroups_ = new int[this.fhHint_];
+        thGroups_ = (HashSet<Integer>[]) new Object[this.thHint_];
+        String filename = folder_ + "/files.csv.h2i";
+        System.out.println("Analyzing file hash groups " + filename + "...");
+        int total = CSVReader.file(filename, (ArrayList<String> row) -> {
+            int fh = Integer.parseInt(row.get(3));
+            ++fhGroups_[fh];
+        });
+        System.out.println("    files analyzed:           " + total);
+    }
+
+    private void loadThGroups() {
+        String filename = folder_ + "/stats.csv.h2i";
+        System.out.println("Analyzing token hash groups " + filename + "...");
+        int total = CSVReader.file(filename, (ArrayList<String> row) -> {
+            int fh = Integer.parseInt(row.get(0));
+            int th = Integer.parseInt(row.get(7));
+            if (thGroups_[th] == null)
+                thGroups_[th] = new HashSet<Integer>();
+            thGroups_[th].add(fh);
+        });
+        System.out.println("    file hashes analyzed:           " + total);
+    }
+
+    private void analyzeGroups() {
+    }
+
+
+/*
     private void loadProjectClones() {
         clones_ = new HashMap<>();
         for (int i = 0; i < chunks_; ++i) {
@@ -60,8 +93,11 @@ public class CloneStats {
         }
 
     }
-
+*/
     private String folder_;
-    private int chunks_;
-    private Map<Integer, Integer> clones_;
+    private int fhHint_;
+    private int thHint_;
+    private int[] fhGroups_;
+    private HashSet<Integer>[] thGroups_;
+
 }
